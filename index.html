@@ -3,9 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
- 
-    <title>🛡️ CyberGuard - Sécurité & Sensibilisation</title>
-     <link rel="icon" type="image/png" href="/favicon.png">
+    <title>CyberGuard - Sécurité & Sensibilisation</title>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -36,6 +35,24 @@
         @keyframes pulse-danger {
             0%, 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); }
             50% { box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); }
+        }
+        .principe-card, .tip-card, .warning-box {
+            transition: all 0.6s ease;
+        }
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 50%;
+            pointer-events: none;
+            animation: float 6s linear infinite;
+        }
+        @keyframes float {
+            0% { transform: translateY(100vh) translateX(0px); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-100px) translateX(100px); opacity: 0; }
         }
     </style>
 </head>
@@ -78,10 +95,10 @@
     </nav>
 
     <!-- Hero Section -->
-    <section id="accueil" class="gradient-bg min-h-screen flex items-center pt-16">
+    <section id="accueil" class="gradient-bg min-h-screen flex items-center pt-16 relative overflow-hidden">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
             <div class="text-center text-white">
-                <h1 class="text-4xl md:text-6xl font-bold mb-6 animate-pulse">
+                <h1 id="hero-title" class="text-4xl md:text-6xl font-bold mb-6 animate-pulse">
                     Protégez-vous des <span class="text-yellow-300">Cyberattaques</span>
                 </h1>
                 <p class="text-xl md:text-2xl mb-8 opacity-90">
@@ -91,9 +108,9 @@
                     <button onclick="scrollToSection('articles')" class="w-full md:w-auto bg-yellow-400 text-gray-900 px-8 py-3 rounded-full font-semibold hover:bg-yellow-300 transform hover:scale-105 transition-all duration-300">
                         Découvrir les menaces
                     </button>
-                     <a href="#quiz" class="w-full md:w-auto glass-effect text-white px-8 py-3 rounded-full font-semibold hover:bg-white hover:text-gray-900 transition-all duration-300">
+                    <button onclick="startQuiz()" class="w-full md:w-auto glass-effect text-white px-8 py-3 rounded-full font-semibold hover:bg-white hover:text-gray-900 transition-all duration-300">
                         Tester mes connaissances
-                     </a>
+                    </button>
                 </div>
             </div>
         </div>
@@ -102,16 +119,16 @@
         <div class="absolute bottom-10 left-0 right-0">
             <div class="max-w-4xl mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-6 text-center text-white">
                 <div class="glass-effect p-4 rounded-lg">
-                    <div class="text-3xl font-bold text-yellow-300">87%</div>
-                    <div class="text-sm">des attaques utilisent le phishing</div>
+                    <div class="text-3xl font-bold text-yellow-300">3.4B</div>
+                    <div class="text-sm">emails de phishing envoyés quotidiennement</div>
                 </div>
                 <div class="glass-effect p-4 rounded-lg">
-                    <div class="text-3xl font-bold text-yellow-300">1/5</div>
-                    <div class="text-sm">personnes tombent dans le piège</div>
-                </div>
-                <div class="glass-effect p-4 rounded-lg">
-                    <div class="text-3xl font-bold text-yellow-300">4.35MCFA</div>
+                    <div class="text-3xl font-bold text-yellow-300">4.91M$</div>
                     <div class="text-sm">coût moyen d'une violation</div>
+                </div>
+                <div class="glass-effect p-4 rounded-lg">
+                    <div class="text-3xl font-bold text-yellow-300">3.4%</div>
+                    <div class="text-sm">des utilisateurs cliquent sur des liens de phishing</div>
                 </div>
             </div>
         </div>
@@ -133,72 +150,8 @@
                 <p class="text-xl text-gray-600 max-w-3xl mx-auto">Découvrez les principales cybermenaces et apprenez à vous en protéger</p>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <!-- Article 1 -->
-                <article class="bg-gradient-to-br from-red-50 to-red-100 rounded-xl p-6 hover-lift hover:shadow-xl transition-all duration-300 cursor-pointer" onclick="openArticle('phishing')">
-                    <div class="text-4xl mb-4">🎣</div>
-                    <h3 class="text-xl font-bold text-gray-900 mb-3">Phishing : L'hameçon numérique</h3>
-                    <p class="text-gray-700 mb-4">Les emails frauduleux représentent 87% des cyberattaques. Apprenez à les reconnaître.</p>
-                    <div class="flex items-center justify-between">
-                        <span class="bg-red-200 text-red-800 px-3 py-1 rounded-full text-sm font-medium">Critique</span>
-                        <span class="text-sm text-gray-500">5 min de lecture</span>
-                    </div>
-                </article>
-
-                <!-- Article 2 -->
-                <article class="bg-gradient-to-br from-orange-50 to-orange-100 rounded-xl p-6 hover-lift hover:shadow-xl transition-all duration-300 cursor-pointer" onclick="openArticle('passwords')">
-                    <div class="text-4xl mb-4">🔐</div>
-                    <h3 class="text-xl font-bold text-gray-900 mb-3">Mots de passe sécurisés</h3>
-                    <p class="text-gray-700 mb-4">Votre première ligne de défense. Créez des mots de passe inviolables.</p>
-                    <div class="flex items-center justify-between">
-                        <span class="bg-orange-200 text-orange-800 px-3 py-1 rounded-full text-sm font-medium">Important</span>
-                        <span class="text-sm text-gray-500">3 min de lecture</span>
-                    </div>
-                </article>
-
-                <!-- Article 3 -->
-                <article class="bg-gradient-to-br from-yellow-50 to-yellow-100 rounded-xl p-6 hover-lift hover:shadow-xl transition-all duration-300 cursor-pointer" onclick="openArticle('social')">
-                    <div class="text-4xl mb-4">📱</div>
-                    <h3 class="text-xl font-bold text-gray-900 mb-3">Réseaux sociaux : Attention aux pièges</h3>
-                    <p class="text-gray-700 mb-4">Vos données personnelles valent de l'or. Protégez votre vie privée.</p>
-                    <div class="flex items-center justify-between">
-                        <span class="bg-yellow-200 text-yellow-800 px-3 py-1 rounded-full text-sm font-medium">Modéré</span>
-                        <span class="text-sm text-gray-500">4 min de lecture</span>
-                    </div>
-                </article>
-
-                <!-- Article 4 -->
-                <article class="bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl p-6 hover-lift hover:shadow-xl transition-all duration-300 cursor-pointer" onclick="openArticle('wifi')">
-                    <div class="text-4xl mb-4">📶</div>
-                    <h3 class="text-xl font-bold text-gray-900 mb-3">WiFi public : Zone de danger</h3>
-                    <p class="text-gray-700 mb-4">Les réseaux publics sont des nids à pirates. Naviguez en sécurité.</p>
-                    <div class="flex items-center justify-between">
-                        <span class="bg-blue-200 text-blue-800 px-3 py-1 rounded-full text-sm font-medium">Important</span>
-                        <span class="text-sm text-gray-500">6 min de lecture</span>
-                    </div>
-                </article>
-
-                <!-- Article 5 -->
-                <article class="bg-gradient-to-br from-purple-50 to-purple-100 rounded-xl p-6 hover-lift hover:shadow-xl transition-all duration-300 cursor-pointer" onclick="openArticle('ransomware')">
-                    <div class="text-4xl mb-4">🦠</div>
-                    <h3 class="text-xl font-bold text-gray-900 mb-3">Ransomware : La rançon numérique</h3>
-                    <p class="text-gray-700 mb-4">Vos fichiers pris en otage. Prévention et réaction face au chantage.</p>
-                    <div class="flex items-center justify-between">
-                        <span class="bg-purple-200 text-purple-800 px-3 py-1 rounded-full text-sm font-medium">Critique</span>
-                        <span class="text-sm text-gray-500">7 min de lecture</span>
-                    </div>
-                </article>
-
-                <!-- Article 6 -->
-                <article class="bg-gradient-to-br from-green-50 to-green-100 rounded-xl p-6 hover-lift hover:shadow-xl transition-all duration-300 cursor-pointer" onclick="openArticle('updates')">
-                    <div class="text-4xl mb-4">🔄</div>
-                    <h3 class="text-xl font-bold text-gray-900 mb-3">Mises à jour : Votre bouclier</h3>
-                    <p class="text-gray-700 mb-4">Les failles de sécurité se corrigent. Ne négligez jamais les mises à jour.</p>
-                    <div class="flex items-center justify-between">
-                        <span class="bg-green-200 text-green-800 px-3 py-1 rounded-full text-sm font-medium">Essentiel</span>
-                        <span class="text-sm text-gray-500">2 min de lecture</span>
-                    </div>
-                </article>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="articles-container">
+                <!-- Articles will be dynamically inserted here -->
             </div>
         </div>
     </section>
@@ -215,7 +168,7 @@
                 <div id="quiz-start" class="text-center">
                     <div class="text-6xl mb-6">🧠</div>
                     <h3 class="text-2xl font-bold mb-4">Quiz de Sensibilisation</h3>
-                    <p class="text-gray-600 mb-8">10 questions pour tester votre vigilance face aux cybermenaces</p>
+                    <p class="text-gray-600 mb-8">15 questions pour tester votre vigilance face aux cybermenaces</p>
                     <button onclick="startQuiz()" class="bg-primary text-white px-8 py-3 rounded-full font-semibold hover:bg-secondary transition-colors">
                         Commencer le quiz
                     </button>
@@ -224,11 +177,11 @@
                 <div id="quiz-question" class="hidden">
                     <div class="mb-6">
                         <div class="flex justify-between items-center mb-4">
-                            <span class="text-sm font-medium text-gray-500">Question <span id="current-question">1</span>/10</span>
-                            <span class="text-sm font-medium text-gray-500">Score: <span id="score">0</span>/10</span>
+                            <span class="text-sm font-medium text-gray-500">Question <span id="current-question">1</span>/15</span>
+                            <span class="text-sm font-medium text-gray-500">Score: <span id="score">0</span>/15</span>
                         </div>
                         <div class="w-full bg-gray-200 rounded-full h-2">
-                            <div id="progress-bar" class="bg-primary h-2 rounded-full transition-all duration-300" style="width: 10%"></div>
+                            <div id="progress-bar" class="bg-primary h-2 rounded-full transition-all duration-300" style="width: 6.67%"></div>
                         </div>
                     </div>
                     
@@ -250,7 +203,7 @@
                     <h3 id="results-title" class="text-2xl font-bold mb-4"></h3>
                     <p id="results-message" class="text-gray-600 mb-6"></p>
                     <div class="bg-gray-50 rounded-lg p-6 mb-6">
-                        <div class="text-3xl font-bold text-primary mb-2" id="final-score">0/10</div>
+                        <div class="text-3xl font-bold text-primary mb-2" id="final-score">0/15</div>
                         <div class="text-sm text-gray-500">Score final</div>
                     </div>
                     <button onclick="restartQuiz()" class="bg-primary text-white px-8 py-3 rounded-full font-semibold hover:bg-secondary transition-colors">
@@ -269,58 +222,8 @@
                 <p class="text-xl text-gray-600">Les bonnes pratiques à adopter au quotidien</p>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div class="space-y-6">
-                    <div class="flex items-start space-x-4 p-6 bg-green-50 rounded-lg">
-                        <div class="text-2xl">✅</div>
-                        <div>
-                            <h3 class="font-semibold text-gray-900 mb-2">Utilisez l'authentification à deux facteurs</h3>
-                            <p class="text-gray-600">Activez la 2FA sur tous vos comptes importants. Une couche de sécurité supplémentaire qui fait la différence.</p>
-                        </div>
-                    </div>
-
-                    <div class="flex items-start space-x-4 p-6 bg-blue-50 rounded-lg">
-                        <div class="text-2xl">🔄</div>
-                        <div>
-                            <h3 class="font-semibold text-gray-900 mb-2">Maintenez vos logiciels à jour</h3>
-                            <p class="text-gray-600">Les mises à jour corrigent les failles de sécurité. Activez les mises à jour automatiques quand c'est possible.</p>
-                        </div>
-                    </div>
-
-                    <div class="flex items-start space-x-4 p-6 bg-purple-50 rounded-lg">
-                        <div class="text-2xl">🔐</div>
-                        <div>
-                            <h3 class="font-semibold text-gray-900 mb-2">Gestionnaire de mots de passe</h3>
-                            <p class="text-gray-600">Utilisez un gestionnaire pour créer et stocker des mots de passe uniques et complexes pour chaque compte.</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="space-y-6">
-                    <div class="flex items-start space-x-4 p-6 bg-red-50 rounded-lg">
-                        <div class="text-2xl">⚠️</div>
-                        <div>
-                            <h3 class="font-semibold text-gray-900 mb-2">Méfiez-vous des emails suspects</h3>
-                            <p class="text-gray-600">Vérifiez l'expéditeur, les liens et les pièces jointes. En cas de doute, contactez directement l'organisation.</p>
-                        </div>
-                    </div>
-
-                    <div class="flex items-start space-x-4 p-6 bg-orange-50 rounded-lg">
-                        <div class="text-2xl">💾</div>
-                        <div>
-                            <h3 class="font-semibold text-gray-900 mb-2">Sauvegardez régulièrement</h3>
-                            <p class="text-gray-600">La règle 3-2-1 : 3 copies, 2 supports différents, 1 hors site. Protégez-vous contre les ransomwares.</p>
-                        </div>
-                    </div>
-
-                    <div class="flex items-start space-x-4 p-6 bg-yellow-50 rounded-lg">
-                        <div class="text-2xl">🌐</div>
-                        <div>
-                            <h3 class="font-semibold text-gray-900 mb-2">Sécurisez votre navigation</h3>
-                            <p class="text-gray-600">Utilisez HTTPS, évitez les WiFi publics pour les données sensibles, et considérez un VPN.</p>
-                        </div>
-                    </div>
-                </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8" id="tips-container">
+                <!-- Tips will be dynamically inserted here -->
             </div>
         </div>
     </section>
@@ -336,8 +239,8 @@
                 <div>
                     <h3 class="font-semibold mb-4">Ressources</h3>
                     <ul class="space-y-2 text-gray-400">
-                        <li><a href="#" class="hover:text-white transition-colors">Guide de sécurité</a></li>
-                        <li><a href="#" class="hover:text-white transition-colors">Signaler une menace</a></li>
+                        <li><a href="https://www.cybermalveillance.gouv.fr" target="_blank" class="hover:text-white transition-colors">Guide de sécurité</a></li>
+                        <li><a href="https://www.cybermalveillance.gouv.fr" target="_blank" class="hover:text-white transition-colors">Signaler une menace</a></li>
                         <li><a href="#" class="hover:text-white transition-colors">Centre d'aide</a></li>
                         <li><a href="#" class="hover:text-white transition-colors">Formations</a></li>
                     </ul>
@@ -345,14 +248,15 @@
                 <div>
                     <h3 class="font-semibold mb-4">Contact</h3>
                     <ul class="space-y-2 text-gray-400">
-                        <li>📧 contactcyberguard@gmail.com</li>
-                        <li>📞 +221 77 614 88 45</li>
-                        <li>🏢 123 cite batrain Ouakam,Dakar, Senegal</li>
+                        <li>📧 contact@cyberguard.fr</li>
+                        <li>📞 +33 1 23 45 67 89</li>
+                        <li>🏢 123 Rue de la Sécurité, Paris</li>
                     </ul>
                 </div>
             </div>
             <div class="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400">
                 <p>© 2025 CyberGuard. Tous droits réservés. Projet éducatif de sensibilisation à la sécurité informatique.</p>
+                <p>⚠️ Les techniques présentées sont à des fins éducatives uniquement. Toute utilisation malveillante est strictement interdite et punissable par la loi.</p>
             </div>
         </div>
     </footer>
@@ -372,748 +276,7 @@
         </div>
     </div>
 
-    <script>
-        // Mobile menu toggle
-        document.getElementById('mobile-menu-btn').addEventListener('click', function() {
-            const mobileMenu = document.getElementById('mobile-menu');
-            mobileMenu.classList.toggle('hidden');
-        });
-
-        // Smooth scrolling
-        function scrollToSection(sectionId) {
-            document.getElementById(sectionId).scrollIntoView({ behavior: 'smooth' });
-        }
-
-        // Close alert banner
-        function closeAlert() {
-            document.getElementById('alert-banner').style.display = 'none';
-        }
-
-        // Quiz data
-        const quizData = [
-            {
-                question: "Quel est le principal vecteur des attaques de phishing ?",
-                answers: ["SMS", "Email", "Réseaux sociaux", "Téléphone"],
-                correct: 1,
-                explanation: "87% des attaques de phishing utilisent l'email comme vecteur principal d'attaque."
-            },
-            {
-                question: "Quelle est la longueur minimale recommandée pour un mot de passe sécurisé ?",
-                answers: ["6 caractères", "8 caractères", "12 caractères", "16 caractères"],
-                correct: 2,
-                explanation: "Un mot de passe de 12 caractères minimum avec des caractères variés est recommandé pour une sécurité optimale."
-            },
-            {
-                question: "Que signifie le 'S' dans HTTPS ?",
-                answers: ["Secure", "Safe", "Strong", "Standard"],
-                correct: 0,
-                explanation: "HTTPS signifie HyperText Transfer Protocol Secure, garantissant le chiffrement des données."
-            },
-            {
-                question: "Quelle action ne devez-vous JAMAIS faire avec un email suspect ?",
-                answers: ["Le signaler", "Le supprimer", "Cliquer sur les liens", "Le transférer aux collègues"],
-                correct: 2,
-                explanation: "Ne cliquez jamais sur les liens d'un email suspect, ils peuvent mener à des sites malveillants."
-            },
-            {
-                question: "Combien de copies de sauvegarde recommande la règle 3-2-1 ?",
-                answers: ["2 copies", "3 copies", "4 copies", "5 copies"],
-                correct: 1,
-                explanation: "La règle 3-2-1 : 3 copies au total, 2 sur supports différents, 1 hors site."
-            },
-            {
-                question: "Quelle est la meilleure pratique pour les mots de passe ?",
-                answers: ["Le même partout", "Différent pour chaque site", "Seulement des chiffres", "Écrit sur papier"],
-                correct: 1,
-                explanation: "Utilisez un mot de passe unique et complexe pour chaque compte ou service."
-            },
-            {
-                question: "Que faire si vous recevez un email urgent de votre banque ?",
-                answers: ["Cliquer immédiatement", "Appeler la banque", "Ignorer", "Transférer"],
-                correct: 1,
-                explanation: "Contactez toujours votre banque directement par téléphone pour vérifier l'authenticité."
-            },
-            {
-                question: "Quelle information ne devez-vous JAMAIS partager sur les réseaux sociaux ?",
-                answers: ["Vos hobbies", "Vos mots de passe", "Vos photos de vacances", "Votre musique préférée"],
-                correct: 1,
-                explanation: "Ne partagez jamais vos mots de passe ou informations sensibles sur les réseaux sociaux."
-            },
-            {
-                question: "Que signifie l'authentification à deux facteurs (2FA) ?",
-                answers: ["Deux mots de passe", "Mot de passe + code", "Deux comptes", "Double vérification"],
-                correct: 1,
-                explanation: "La 2FA combine votre mot de passe avec un code temporaire envoyé sur votre téléphone."
-            },
-            {
-                question: "À quelle fréquence devriez-vous mettre à jour vos logiciels ?",
-                answers: ["Une fois par an", "Quand ça plante", "Dès que possible", "Jamais"],
-                correct: 2,
-                explanation: "Mettez à jour vos logiciels dès que possible pour corriger les failles de sécurité."
-            }
-        ];
-
-        let currentQuestionIndex = 0;
-        let score = 0;
-        let selectedAnswer = null;
-
-        // Quiz functions
-        function startQuiz() {
-            document.getElementById('quiz-start').classList.add('hidden');
-            document.getElementById('quiz-question').classList.remove('hidden');
-            currentQuestionIndex = 0;
-            score = 0;
-            selectedAnswer = null;
-            showQuestion();
-        }
-
-        function showQuestion() {
-            const question = quizData[currentQuestionIndex];
-            document.getElementById('current-question').textContent = currentQuestionIndex + 1;
-            document.getElementById('score').textContent = score;
-            document.getElementById('progress-bar').style.width = ((currentQuestionIndex + 1) / quizData.length * 100) + '%';
-            document.getElementById('question-text').textContent = question.question;
-            
-            const answersContainer = document.getElementById('answers');
-            answersContainer.innerHTML = '';
-            
-            question.answers.forEach((answer, index) => {
-                const button = document.createElement('button');
-                button.className = 'w-full text-left p-4 border-2 border-gray-200 rounded-lg hover:border-primary hover:bg-blue-50 transition-all duration-200';
-                button.textContent = answer;
-                button.onclick = () => selectAnswer(index, button);
-                answersContainer.appendChild(button);
-            });
-            
-            document.getElementById('question-result').classList.add('hidden');
-            document.getElementById('next-question').classList.add('hidden');
-            selectedAnswer = null;
-        }
-
-        function selectAnswer(answerIndex, buttonElement) {
-            if (selectedAnswer !== null) return;
-            
-            selectedAnswer = answerIndex;
-            const question = quizData[currentQuestionIndex];
-            const isCorrect = answerIndex === question.correct;
-            
-            // Update score
-            if (isCorrect) {
-                score++;
-                document.getElementById('score').textContent = score;
-            }
-            
-            // Style buttons
-            const buttons = document.querySelectorAll('#answers button');
-            buttons.forEach((btn, index) => {
-                btn.disabled = true;
-                if (index === question.correct) {
-                    btn.classList.add('bg-green-100', 'border-green-500', 'text-green-800');
-                } else if (index === answerIndex && !isCorrect) {
-                    btn.classList.add('bg-red-100', 'border-red-500', 'text-red-800');
-                } else {
-                    btn.classList.add('opacity-50');
-                }
-            });
-            
-            // Show result
-            const resultContainer = document.getElementById('question-result');
-            const resultText = document.getElementById('result-text');
-            const explanation = document.getElementById('explanation');
-            
-            if (isCorrect) {
-                resultContainer.className = 'mt-6 p-4 rounded-lg bg-green-100 border border-green-300';
-                resultText.textContent = '✅ Correct !';
-                resultText.className = 'font-semibold mb-2 text-green-800';
-            } else {
-                resultContainer.className = 'mt-6 p-4 rounded-lg bg-red-100 border border-red-300';
-                resultText.textContent = '❌ Incorrect';
-                resultText.className = 'font-semibold mb-2 text-red-800';
-            }
-            
-            explanation.textContent = question.explanation;
-            resultContainer.classList.remove('hidden');
-            document.getElementById('next-question').classList.remove('hidden');
-        }
-
-        function nextQuestion() {
-            currentQuestionIndex++;
-            if (currentQuestionIndex < quizData.length) {
-                showQuestion();
-            } else {
-                showResults();
-            }
-        }
-
-        function showResults() {
-            document.getElementById('quiz-question').classList.add('hidden');
-            document.getElementById('quiz-results').classList.remove('hidden');
-            
-            const percentage = (score / quizData.length) * 100;
-            const resultsEmoji = document.getElementById('results-emoji');
-            const resultsTitle = document.getElementById('results-title');
-            const resultsMessage = document.getElementById('results-message');
-            const finalScore = document.getElementById('final-score');
-            
-            finalScore.textContent = `${score}/${quizData.length}`;
-            
-            if (percentage >= 80) {
-                resultsEmoji.textContent = '🏆';
-                resultsTitle.textContent = 'Excellent !';
-                resultsMessage.textContent = 'Vous avez une excellente compréhension de la sécurité informatique. Continuez ainsi !';
-            } else if (percentage >= 60) {
-                resultsEmoji.textContent = '👍';
-                resultsTitle.textContent = 'Bien joué !';
-                resultsMessage.textContent = 'Vous avez de bonnes bases. Quelques améliorations et vous serez un expert !';
-            } else {
-                resultsEmoji.textContent = '📚';
-                resultsTitle.textContent = 'À améliorer';
-                resultsMessage.textContent = 'Il est temps de renforcer vos connaissances en sécurité. Relisez nos articles !';
-            }
-        }
-
-        function restartQuiz() {
-            document.getElementById('quiz-results').classList.add('hidden');
-            document.getElementById('quiz-start').classList.remove('hidden');
-        }
-
-        // Article modal functions
-        const articleContent = {
-            phishing: {
-                title: "🎣 Phishing : L'hameçon numérique",
-                content: `
-                    <div class="space-y-6">
-                        <div class="bg-red-50 border-l-4 border-red-400 p-4">
-                            <div class="flex">
-                                <div class="ml-3">
-                                    <p class="text-sm text-red-700">
-                                        <strong>Alerte :</strong> 87% des cyberattaques utilisent le phishing comme vecteur d'entrée.
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <h3 class="text-xl font-semibold">Qu'est-ce que le phishing ?</h3>
-                        <p>Le phishing (hameçonnage) est une technique d'ingénierie sociale utilisée par les cybercriminels pour obtenir frauduleusement des informations sensibles telles que :</p>
-                        <ul class="list-disc pl-6 space-y-2">
-                            <li>Identifiants de connexion</li>
-                            <li>Mots de passe</li>
-                            <li>Numéros de carte bancaire</li>
-                            <li>Informations personnelles</li>
-                        </ul>
-                        
-                        <h3 class="text-xl font-semibold">Comment reconnaître un email de phishing ?</h3>
-                        <div class="grid md:grid-cols-2 gap-4">
-                            <div class="bg-red-50 p-4 rounded-lg">
-                                <h4 class="font-semibold text-red-800 mb-2">⚠️ Signaux d'alarme</h4>
-                                <ul class="text-sm space-y-1 text-red-700">
-                                    <li>• Urgence artificielle</li>
-                                    <li>• Fautes d'orthographe</li>
-                                    <li>• Adresse expéditeur suspecte</li>
-                                    <li>• Liens raccourcis</li>
-                                    <li>• Demande d'informations sensibles</li>
-                                </ul>
-                            </div>
-                            <div class="bg-green-50 p-4 rounded-lg">
-                                <h4 class="font-semibold text-green-800 mb-2">✅ Bonnes pratiques</h4>
-                                <ul class="text-sm space-y-1 text-green-700">
-                                    <li>• Vérifier l'expéditeur</li>
-                                    <li>• Survoler les liens sans cliquer</li>
-                                    <li>• Contacter directement l'organisation</li>
-                                    <li>• Utiliser les favoris du navigateur</li>
-                                    <li>• Signaler les emails suspects</li>
-                                </ul>
-                            </div>
-                        </div>
-                        
-                        <h3 class="text-xl font-semibold">Types de phishing courants</h3>
-                        <div class="space-y-4">
-                            <div class="border-l-4 border-blue-400 pl-4">
-                                <h4 class="font-semibold">Phishing bancaire</h4>
-                                <p class="text-sm text-gray-600">Emails prétendant provenir de votre banque demandant une "mise à jour" de vos informations.</p>
-                            </div>
-                            <div class="border-l-4 border-purple-400 pl-4">
-                                <h4 class="font-semibold">Spear phishing</h4>
-                                <p class="text-sm text-gray-600">Attaques ciblées utilisant des informations personnelles pour paraître légitimes.</p>
-                            </div>
-                            <div class="border-l-4 border-orange-400 pl-4">
-                                <h4 class="font-semibold">Whaling</h4>
-                                <p class="text-sm text-gray-600">Phishing ciblant spécifiquement les dirigeants d'entreprise.</p>
-                            </div>
-                        </div>
-                        
-                        <div class="bg-blue-50 p-6 rounded-lg">
-                            <h4 class="font-semibold text-blue-800 mb-3">💡 Que faire si vous êtes victime ?</h4>
-                            <ol class="list-decimal pl-6 space-y-2 text-blue-700">
-                                <li>Changez immédiatement vos mots de passe</li>
-                                <li>Contactez votre banque si des informations financières sont compromises</li>
-                                <li>Surveillez vos comptes bancaires</li>
-                                <li>Signalez l'incident aux autorités compétentes</li>
-                                <li>Prévenez vos contacts si votre carnet d'adresses a été compromis</li>
-                            </ol>
-                        </div>
-                    </div>
-                `
-            },
-            passwords: {
-                title: "🔐 Mots de passe sécurisés",
-                content: `
-                    <div class="space-y-6">
-                        <div class="bg-orange-50 border-l-4 border-orange-400 p-4">
-                            <p class="text-sm text-orange-700">
-                                <strong>Statistique :</strong> 81% des violations de données sont dues à des mots de passe faibles ou volés.
-                            </p>
-                        </div>
-                        
-                        <h3 class="text-xl font-semibold">Créer un mot de passe fort</h3>
-                        <div class="grid md:grid-cols-2 gap-6">
-                            <div>
-                                <h4 class="font-semibold mb-3">✅ Caractéristiques d'un bon mot de passe</h4>
-                                <ul class="space-y-2 text-sm">
-                                    <li class="flex items-center"><span class="text-green-500 mr-2">•</span> Au moins 12 caractères</li>
-                                    <li class="flex items-center"><span class="text-green-500 mr-2">•</span> Mélange de majuscules et minuscules</li>
-                                    <li class="flex items-center"><span class="text-green-500 mr-2">•</span> Chiffres et caractères spéciaux</li>
-                                    <li class="flex items-center"><span class="text-green-500 mr-2">•</span> Unique pour chaque compte</li>
-                                    <li class="flex items-center"><span class="text-green-500 mr-2">•</span> Pas d'informations personnelles</li>
-                                </ul>
-                            </div>
-                            <div>
-                                <h4 class="font-semibold mb-3">❌ À éviter absolument</h4>
-                                <ul class="space-y-2 text-sm">
-                                    <li class="flex items-center"><span class="text-red-500 mr-2">•</span> 123456, password, azerty</li>
-                                    <li class="flex items-center"><span class="text-red-500 mr-2">•</span> Votre nom ou date de naissance</li>
-                                    <li class="flex items-center"><span class="text-red-500 mr-2">•</span> Mots du dictionnaire seuls</li>
-                                    <li class="flex items-center"><span class="text-red-500 mr-2">•</span> Réutiliser le même mot de passe</li>
-                                    <li class="flex items-center"><span class="text-red-500 mr-2">•</span> Le partager avec quelqu'un</li>
-                                </ul>
-                            </div>
-                        </div>
-                        
-                        <h3 class="text-xl font-semibold">Techniques de création</h3>
-                        <div class="space-y-4">
-                            <div class="bg-blue-50 p-4 rounded-lg">
-                                <h4 class="font-semibold text-blue-800 mb-2">Méthode des phrases de passe</h4>
-                                <p class="text-sm text-blue-700 mb-2">Créez une phrase mémorable et transformez-la :</p>
-                                <div class="bg-white p-3 rounded border">
-                                    <p class="text-sm">"J'ai 25 ans et j'adore les pizza!" → <code>J'25a&j'♥les🍕!</code></p>
-                                </div>
-                            </div>
-                            
-                            <div class="bg-purple-50 p-4 rounded-lg">
-                                <h4 class="font-semibold text-purple-800 mb-2">Méthode de l'acronyme</h4>
-                                <p class="text-sm text-purple-700 mb-2">Prenez la première lettre de chaque mot d'une phrase :</p>
-                                <div class="bg-white p-3 rounded border">
-                                    <p class="text-sm">"Mon chat noir mange 3 croquettes à 18h" → <code>McnM3cA18h!</code></p>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <h3 class="text-xl font-semibold">Gestionnaires de mots de passe</h3>
-                        <div class="bg-green-50 p-6 rounded-lg">
-                            <h4 class="font-semibold text-green-800 mb-3">🛡️ Pourquoi utiliser un gestionnaire ?</h4>
-                            <div class="grid md:grid-cols-2 gap-4">
-                                <ul class="space-y-2 text-sm text-green-700">
-                                    <li>• Génère des mots de passe complexes</li>
-                                    <li>• Stockage sécurisé et chiffré</li>
-                                    <li>• Un seul mot de passe à retenir</li>
-                                    <li>• Synchronisation multi-appareils</li>
-                                </ul>
-                                <ul class="space-y-2 text-sm text-green-700">
-                                    <li>• Détection des mots de passe faibles</li>
-                                    <li>• Alerte en cas de violation</li>
-                                    <li>• Remplissage automatique</li>
-                                    <li>• Partage sécurisé</li>
-                                </ul>
-                            </div>
-                        </div>
-                        
-                        <div class="bg-yellow-50 p-4 rounded-lg">
-                            <h4 class="font-semibold text-yellow-800 mb-2">⚡ Test de force de mot de passe</h4>
-                            <p class="text-sm text-yellow-700">Un mot de passe de 8 caractères peut être cracké en quelques heures, tandis qu'un mot de passe de 12 caractères prendrait des milliers d'années avec la technologie actuelle.</p>
-                        </div>
-                    </div>
-                `
-            },
-            social: {
-                title: "📱 Réseaux sociaux : Attention aux pièges",
-                content: `
-                    <div class="space-y-6">
-                        <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4">
-                            <p class="text-sm text-yellow-700">
-                                <strong>Attention :</strong> 78% des utilisateurs partagent trop d'informations personnelles sur les réseaux sociaux.
-                            </p>
-                        </div>
-                        
-                        <h3 class="text-xl font-semibold">Les risques des réseaux sociaux</h3>
-                        <div class="grid md:grid-cols-2 gap-4">
-                            <div class="space-y-4">
-                                <div class="bg-red-50 p-4 rounded-lg">
-                                    <h4 class="font-semibold text-red-800 mb-2">🎯 Ingénierie sociale</h4>
-                                    <p class="text-sm text-red-700">Les cybercriminels utilisent vos informations publiques pour créer des attaques personnalisées et crédibles.</p>
-                                </div>
-                                
-                                <div class="bg-orange-50 p-4 rounded-lg">
-                                    <h4 class="font-semibold text-orange-800 mb-2">🔍 Usurpation d'identité</h4>
-                                    <p class="text-sm text-orange-700">Vos photos et informations peuvent être utilisées pour créer de faux profils à votre nom.</p>
-                                </div>
-                            </div>
-                            
-                            <div class="space-y-4">
-                                <div class="bg-purple-50 p-4 rounded-lg">
-                                    <h4 class="font-semibold text-purple-800 mb-2">📍 Géolocalisation</h4>
-                                    <p class="text-sm text-purple-700">Le partage de votre localisation peut révéler vos habitudes et compromettre votre sécurité physique.</p>
-                                </div>
-                                
-                                <div class="bg-blue-50 p-4 rounded-lg">
-                                    <h4 class="font-semibold text-blue-800 mb-2">💼 Impact professionnel</h4>
-                                    <p class="text-sm text-blue-700">Vos publications peuvent affecter votre réputation et vos opportunités professionnelles.</p>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <h3 class="text-xl font-semibold">Informations à ne jamais partager</h3>
-                        <div class="bg-red-50 p-6 rounded-lg">
-                            <div class="grid md:grid-cols-2 gap-4">
-                                <ul class="space-y-2 text-sm text-red-700">
-                                    <li>• Numéro de sécurité sociale</li>
-                                    <li>• Adresse complète</li>
-                                    <li>• Numéros de téléphone</li>
-                                    <li>• Informations bancaires</li>
-                                    <li>• Mots de passe</li>
-                                </ul>
-                                <ul class="space-y-2 text-sm text-red-700">
-                                    <li>• Photos de documents officiels</li>
-                                    <li>• Planning détaillé</li>
-                                    <li>• Informations sur vos enfants</li>
-                                    <li>• Détails sur vos voyages</li>
-                                    <li>• Problèmes personnels</li>
-                                </ul>
-                            </div>
-                        </div>
-                        
-                        <h3 class="text-xl font-semibold">Paramètres de confidentialité</h3>
-                        <div class="space-y-4">
-                            <div class="border-l-4 border-green-400 pl-4">
-                                <h4 class="font-semibold">Profil privé</h4>
-                                <p class="text-sm text-gray-600">Configurez votre profil en privé pour contrôler qui peut voir vos publications.</p>
-                            </div>
-                            <div class="border-l-4 border-blue-400 pl-4">
-                                <h4 class="font-semibold">Géolocalisation</h4>
-                                <p class="text-sm text-gray-600">Désactivez le partage automatique de localisation sur vos photos et publications.</p>
-                            </div>
-                            <div class="border-l-4 border-purple-400 pl-4">
-                                <h4 class="font-semibold">Indexation</h4>
-                                <p class="text-sm text-gray-600">Empêchez les moteurs de recherche d'indexer votre profil.</p>
-                            </div>
-                        </div>
-                        
-                        <div class="bg-green-50 p-6 rounded-lg">
-                            <h4 class="font-semibold text-green-800 mb-3">✅ Bonnes pratiques</h4>
-                            <div class="grid md:grid-cols-2 gap-4">
-                                <ul class="space-y-2 text-sm text-green-700">
-                                    <li>• Vérifiez régulièrement vos paramètres</li>
-                                    <li>• Limitez vos amis/contacts</li>
-                                    <li>• Réfléchissez avant de publier</li>
-                                    <li>• Utilisez l'authentification à deux facteurs</li>
-                                </ul>
-                                <ul class="space-y-2 text-sm text-green-700">
-                                    <li>• Méfiez-vous des applications tierces</li>
-                                    <li>• Surveillez les mentions de votre nom</li>
-                                    <li>• Éduquez vos proches</li>
-                                    <li>• Signalez les contenus suspects</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                `
-            },
-            wifi: {
-                title: "📶 WiFi public : Zone de danger",
-                content: `
-                    <div class="space-y-6">
-                        <div class="bg-red-50 border-l-4 border-red-400 p-4">
-                            <p class="text-sm text-red-700">
-                                <strong>Danger :</strong> 69% des utilisateurs se connectent automatiquement aux WiFi publics sans vérification.
-                            </p>
-                        </div>
-                        
-                        <h3 class="text-xl font-semibold">Pourquoi les WiFi publics sont-ils dangereux ?</h3>
-                        <div class="grid md:grid-cols-2 gap-4">
-                            <div class="bg-orange-50 p-4 rounded-lg">
-                                <h4 class="font-semibold text-orange-800 mb-2">🕳️ Absence de chiffrement</h4>
-                                <p class="text-sm text-orange-700">La plupart des WiFi publics ne chiffrent pas les données, rendant votre trafic visible à tous.</p>
-                            </div>
-                            <div class="bg-red-50 p-4 rounded-lg">
-                                <h4 class="font-semibold text-red-800 mb-2">🎭 Faux points d'accès</h4>
-                                <p class="text-sm text-red-700">Les pirates créent de faux hotspots avec des noms attractifs pour intercepter vos données.</p>
-                            </div>
-                            <div class="bg-purple-50 p-4 rounded-lg">
-                                <h4 class="font-semibold text-purple-800 mb-2">👥 Utilisateurs malveillants</h4>
-                                <p class="text-sm text-purple-700">D'autres utilisateurs du réseau peuvent espionner votre trafic avec des outils simples.</p>
-                            </div>
-                            <div class="bg-blue-50 p-4 rounded-lg">
-                                <h4 class="font-semibold text-blue-800 mb-2">🦠 Malware</h4>
-                                <p class="text-sm text-blue-700">Les réseaux compromis peuvent injecter des logiciels malveillants sur votre appareil.</p>
-                            </div>
-                        </div>
-                        
-                        <h3 class="text-xl font-semibold">Attaques courantes sur WiFi public</h3>
-                        <div class="space-y-4">
-                            <div class="border-l-4 border-red-400 pl-4">
-                                <h4 class="font-semibold">Man-in-the-Middle (MITM)</h4>
-                                <p class="text-sm text-gray-600">L'attaquant s'interpose entre vous et le site web pour intercepter vos communications.</p>
-                            </div>
-                            <div class="border-l-4 border-orange-400 pl-4">
-                                <h4 class="font-semibold">Packet Sniffing</h4>
-                                <p class="text-sm text-gray-600">Capture et analyse de tous les paquets de données transitant sur le réseau.</p>
-                            </div>
-                            <div class="border-l-4 border-purple-400 pl-4">
-                                <h4 class="font-semibold">Evil Twin</h4>
-                                <p class="text-sm text-gray-600">Création d'un faux point d'accès imitant un réseau légitime.</p>
-                            </div>
-                        </div>
-                        
-                        <h3 class="text-xl font-semibold">Se protéger sur WiFi public</h3>
-                        <div class="bg-green-50 p-6 rounded-lg">
-                            <h4 class="font-semibold text-green-800 mb-3">🛡️ Mesures de protection</h4>
-                            <div class="space-y-3">
-                                <div class="flex items-start space-x-3">
-                                    <span class="text-green-600 font-bold">1.</span>
-                                    <div>
-                                        <h5 class="font-semibold">Utilisez un VPN</h5>
-                                        <p class="text-sm text-green-700">Chiffrez tout votre trafic avec un VPN fiable et réputé.</p>
-                                    </div>
-                                </div>
-                                <div class="flex items-start space-x-3">
-                                    <span class="text-green-600 font-bold">2.</span>
-                                    <div>
-                                        <h5 class="font-semibold">Vérifiez HTTPS</h5>
-                                        <p class="text-sm text-green-700">Assurez-vous que tous les sites utilisent HTTPS (cadenas dans l'URL).</p>
-                                    </div>
-                                </div>
-                                <div class="flex items-start space-x-3">
-                                    <span class="text-green-600 font-bold">3.</span>
-                                    <div>
-                                        <h5 class="font-semibold">Désactivez le partage</h5>
-                                        <p class="text-sm text-green-700">Mettez votre appareil en mode "réseau public" pour désactiver le partage de fichiers.</p>
-                                    </div>
-                                </div>
-                                <div class="flex items-start space-x-3">
-                                    <span class="text-green-600 font-bold">4.</span>
-                                    <div>
-                                        <h5 class="font-semibold">Évitez les données sensibles</h5>
-                                        <p class="text-sm text-green-700">Ne vous connectez pas à vos comptes bancaires ou ne saisissez pas d'informations sensibles.</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <h3 class="text-xl font-semibold">Alternatives au WiFi public</h3>
-                        <div class="grid md:grid-cols-2 gap-4">
-                            <div class="bg-blue-50 p-4 rounded-lg">
-                                <h4 class="font-semibold text-blue-800 mb-2">📱 Partage de connexion</h4>
-                                <p class="text-sm text-blue-700">Utilisez votre smartphone comme hotspot personnel, plus sécurisé que le WiFi public.</p>
-                            </div>
-                            <div class="bg-indigo-50 p-4 rounded-lg">
-                                <h4 class="font-semibold text-indigo-800 mb-2">💳 Forfait data</h4>
-                                <p class="text-sm text-indigo-700">Investissez dans un forfait data généreux pour éviter la dépendance au WiFi public.</p>
-                            </div>
-                        </div>
-                        
-                        <div class="bg-yellow-50 p-4 rounded-lg">
-                            <h4 class="font-semibold text-yellow-800 mb-2">⚠️ Règle d'or</h4>
-                            <p class="text-sm text-yellow-700">Si c'est gratuit et ouvert, considérez que tout le monde peut voir ce que vous faites. Agissez en conséquence !</p>
-                        </div>
-                    </div>
-                `
-            },
-            ransomware: {
-                title: "🦠 Ransomware : La rançon numérique",
-                content: `
-                    <div class="space-y-6">
-                        <div class="bg-purple-50 border-l-4 border-purple-400 p-4">
-                            <p class="text-sm text-purple-700">
-                                <strong>Alerte :</strong> Les attaques de ransomware ont augmenté de 150% entre 2020 et 2024.
-                            </p>
-                        </div>
-                        
-                        <h3 class="text-xl font-semibold">Qu'est-ce qu'un ransomware ?</h3>
-                        <p>Un ransomware est un type de logiciel malveillant qui chiffre vos fichiers et exige une rançon (souvent en cryptomonnaie) pour les déverrouiller. Les victimes perdent l'accès à leurs données critiques et peuvent subir des pertes financières importantes.</p>
-                        
-                        <h3 class="text-xl font-semibold">Comment se propage-t-il ?</h3>
-                        <div class="grid md:grid-cols-2 gap-4">
-                            <div class="bg-red-50 p-4 rounded-lg">
-                                <h4 class="font-semibold text-red-800 mb-2">📧 Phishing</h4>
-                                <p class="text-sm text-red-700">Les emails frauduleux contenant des pièces jointes ou des liens malveillants sont la principale porte d'entrée.</p>
-                            </div>
-                            <div class="bg-orange-50 p-4 rounded-lg">
-                                <h4 class="font-semibold text-orange-800 mb-2">🕳️ Failles logicielles</h4>
-                                <p class="text-sm text-orange-700">Les logiciels non mis à jour permettent aux attaquants d'exploiter des vulnérabilités.</p>
-                            </div>
-                            <div class="bg-purple-50 p-4 rounded-lg">
-                                <h4 class="font-semibold text-purple-800 mb-2">📥 Téléchargements malveillants</h4>
-                                <p class="text-sm text-purple-700">Télécharger des fichiers ou logiciels depuis des sources non fiables peut installer un ransomware.</p>
-                            </div>
-                            <div class="bg-blue-50 p-4 rounded-lg">
-                                <h4 class="font-semibold text-blue-800 mb-2">📶 Réseaux compromis</h4>
-                                <p class="text-sm text-blue-700">Un appareil infecté sur un réseau peut propager le ransomware aux autres appareils.</p>
-                            </div>
-                        </div>
-                        
-                        <h3 class="text-xl font-semibold">Conséquences d'une attaque</h3>
-                        <div class="space-y-4">
-                            <div class="border-l-4 border-red-400 pl-4">
-                                <h4 class="font-semibold">Perte de données</h4>
-                                <p class="text-sm text-gray-600">Même après paiement, il n'y a aucune garantie de récupérer vos fichiers.</p>
-                            </div>
-                            <div class="border-l-4 border-orange-400 pl-4">
-                                <h4 class="font-semibold">Coût financier</h4>
-                                <p class="text-sm text-gray-600">Le coût moyen d'une attaque ransomware est estimé à 4,35 millions d'euros.</p>
-                            </div>
-                            <div class="border-l-4 border-purple-400 pl-4">
-                                <h4 class="font-semibold">Atteinte à la réputation</h4>
-                                <p class="text-sm text-gray-600">Les entreprises peuvent perdre la confiance de leurs clients après une fuite de données.</p>
-                            </div>
-                        </div>
-                        
-                        <h3 class="text-xl font-semibold">Comment se protéger ?</h3>
-                        <div class="bg-green-50 p-6 rounded-lg">
-                            <h4 class="font-semibold text-green-800 mb-3">🛡️ Mesures de prévention</h4>
-                            <div class="space-y-3">
-                                <div class="flex items-start space-x-3">
-                                    <span class="text-green-600 font-bold">1.</span>
-                                    <div>
-                                        <h5 class="font-semibold">Sauvegardes régulières</h5>
-                                        <p class="text-sm text-green-700">Suivez la règle 3-2-1 : 3 copies, 2 supports différents, 1 hors site.</p>
-                                    </div>
-                                </div>
-                                <div class="flex items-start space-x-3">
-                                    <span class="text-green-600 font-bold">2.</span>
-                                    <div>
-                                        <h5 class="font-semibold">Mises à jour</h5>
-                                        <p class="text-sm text-green-700">Maintenez vos systèmes et logiciels à jour pour corriger les failles.</p>
-                                    </div>
-                                </div>
-                                <div class="flex items-start space-x-3">
-                                    <span class="text-green-600 font-bold">3.</span>
-                                    <div>
-                                        <h5 class="font-semibold">Antivirus</h5>
-                                        <p class="text-sm text-green-700">Utilisez un logiciel antivirus fiable et mettez-le à jour régulièrement.</p>
-                                    </div>
-                                </div>
-                                <div class="flex items-start space-x-3">
-                                    <span class="text-green-600 font-bold">4.</span>
-                                    <div>
-                                        <h5 class="font-semibold">Formation</h5>
-                                        <p class="text-sm text-green-700">Sensibilisez-vous aux techniques de phishing et aux comportements suspects.</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <h3 class="text-xl font-semibold">Que faire si vous êtes infecté ?</h3>
-                        <div class="bg-blue-50 p-6 rounded-lg">
-                            <h4 class="font-semibold text-blue-800 mb-3">💡 Étapes à suivre</h4>
-                            <ol class="list-decimal pl-6 space-y-2 text-blue-700">
-                                <li>Déconnectez immédiatement l'appareil du réseau</li>
-                                <li>Ne payez pas la rançon (aucune garantie de récupération)</li>
-                                <li>Contactez un expert en cybersécurité</li>
-                                <li>Restaurez vos données à partir d'une sauvegarde</li>
-                                <li>Signalez l'incident aux autorités (ex. : <a href="https://www.cybermalveillance.gouv.fr" target="_blank" class="underline">cybermalveillance.gouv.fr</a>)</li>
-                            </ol>
-                        </div>
-                    </div>
-                `
-            },
-            updates: {
-                title: "🔄 Mises à jour : Votre bouclier",
-                content: `
-                    <div class="space-y-6">
-                        <div class="bg-green-50 border-l-4 border-green-400 p-4">
-                            <p class="text-sm text-green-700">
-                                <strong>Statistique :</strong> 60% des violations de données exploitent des failles corrigées par des mises à jour non appliquées.
-                            </p>
-                        </div>
-                        
-                        <h3 class="text-xl font-semibold">Pourquoi les mises à jour sont-elles essentielles ?</h3>
-                        <p>Les mises à jour logicielles corrigent les vulnérabilités exploitées par les cybercriminels. Ignorer une mise à jour, c'est laisser une porte ouverte aux attaques.</p>
-                        
-                        <h3 class="text-xl font-semibold">Quels logiciels mettre à jour ?</h3>
-                        <div class="grid md:grid-cols-2 gap-4">
-                            <div class="bg-blue-50 p-4 rounded-lg">
-                                <h4 class="font-semibold text-blue-800 mb-2">💻 Systèmes d'exploitation</h4>
-                                <p class="text-sm text-blue-700">Windows, macOS, Linux : mettez à jour votre OS régulièrement.</p>
-                            </div>
-                            <div class="bg-indigo-50 p-4 rounded-lg">
-                                <h4 class="font-semibold text-indigo-800 mb-2">🌐 Navigateurs</h4>
-                                <p class="text-sm text-indigo-700">Chrome, Firefox, Safari : les navigateurs sont des cibles fréquentes.</p>
-                            </div>
-                            <div class="bg-purple-50 p-4 rounded-lg">
-                                <h4 class="font-semibold text-purple-800 mb-2">🛡️ Antivirus</h4>
-                                <p class="text-sm text-purple-700">Un antivirus non mis à jour ne détecte pas les nouvelles menaces.</p>
-                            </div>
-                            <div class="bg-orange-50 p-4 rounded-lg">
-                                <h4 class="font-semibold text-orange-800 mb-2">📱 Applications</h4>
-                                <p class="text-sm text-orange-700">Mettez à jour toutes les applications installées sur vos appareils.</p>
-                            </div>
-                        </div>
-                        
-                        <h3 class="text-xl font-semibold">Bonnes pratiques</h3>
-                        <div class="bg-green-50 p-6 rounded-lg">
-                            <h4 class="font-semibold text-green-800 mb-3">🛡️ Comment rester à jour</h4>
-                            <div class="space-y-3">
-                                <div class="flex items-start space-x-3">
-                                    <span class="text-green-600 font-bold">1.</span>
-                                    <div>
-                                        <h5 class="font-semibold">Activer les mises à jour automatiques</h5>
-                                        <p class="text-sm text-green-700">Laissez votre système gérer les mises à jour pour ne rien manquer.</p>
-                                    </div>
-                                </div>
-                                <div class="flex items-start space-x-3">
-                                    <span class="text-green-600 font-bold">2.</span>
-                                    <div>
-                                        <h5 class="font-semibold">Vérifier régulièrement</h5>
-                                        <p class="text-sm text-green-700">Consultez les paramètres de mise à jour de vos logiciels.</p>
-                                    </div>
-                                </div>
-                                <div class="flex items-start space-x-3">
-                                    <span class="text-green-600 font-bold">3.</span>
-                                    <div>
-                                        <h5 class="font-semibold">Redémarrer après mise à jour</h5>
-                                        <p class="text-sm text-green-700">Certaines mises à jour nécessitent un redémarrage pour être effectives.</p>
-                                    </div>
-                                </div>
-                                <div class="flex items-start space-x-3">
-                                    <span class="text-green-600 font-bold">4.</span>
-                                    <div>
-                                        <h5 class="font-semibold">Sauvegarder avant</h5>
-                                        <p class="text-sm text-green-700">Faites une sauvegarde de vos données avant les mises à jour majeures.</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="bg-yellow-50 p-4 rounded-lg">
-                            <h4 class="font-semibold text-yellow-800 mb-2">⚠️ Attention</h4>
-                            <p class="text-sm text-yellow-700">Ne téléchargez les mises à jour que depuis des sources officielles pour éviter les malwares déguisés.</p>
-                        </div>
-                    </div>
-                `
-            }
-        };
-
-        function openArticle(articleId) {
-            const article = articleContent[articleId];
-            if (article) {
-                document.getElementById('modal-title').textContent = article.title;
-                document.getElementById('modal-content').innerHTML = article.content;
-                document.getElementById('article-modal').classList.remove('hidden');
-            }
-        }
-
-        function closeModal() {
-            document.getElementById('article-modal').classList.add('hidden');
-        }
-    </script>
+    <script src="data.js"></script>
+    <script src="controller.js"></script>
 </body>
 </html>
